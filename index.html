@@ -212,7 +212,7 @@ async function saveData() {
     let name = document.getElementById("fname").value;
     let email = document.getElementById("femail").value;
 
-    let response = await fetch("http://127.0.0.1:5000/save", {
+    let response = await fetch("https://the-og-app.onrender.com/save", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
