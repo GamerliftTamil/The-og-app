@@ -7,6 +7,11 @@ CORS(app)
 @app.route('/')
 def home():
     return send_from_directory('.', 'index.html')
+from flask import send_file
+
+@app.route('/download')
+def download_file():
+    return send_file("userdata.txt", as_attachment=True)    
 
 @app.route('/save', methods=['POST'])
 def save():
