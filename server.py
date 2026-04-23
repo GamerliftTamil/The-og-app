@@ -23,7 +23,7 @@ def save():
     with open("userdata.txt", "a") as file:
         file.write(f"Name: {name}, Email: {email}\n")
 
-    return "Data saved successfully(I'm the danger!!)"
+    return "Data saved successfully"
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
