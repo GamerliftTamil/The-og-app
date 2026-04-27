@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import json
 import os
@@ -9,15 +9,12 @@ CORS(app)
 USER_FILE = "users.json"
 
 
-# Home route
-@app.route("/", methods=["GET"])
+# Serve frontend page
+@app.route("/")
 def home():
-    return jsonify({
-        "message": "Server is running "
-    })
+    return render_template("index.html")
 
 
-# Load users
 def load_users():
     try:
         with open(USER_FILE, "r") as f:
@@ -26,29 +23,23 @@ def load_users():
         return []
 
 
-# Save users
 def save_users(users):
     with open(USER_FILE, "w") as f:
         json.dump(users, f, indent=4)
 
 
-# Signup route
 @app.route("/signup", methods=["POST"])
 def signup():
     data = request.get_json()
 
     if not data:
-        return jsonify({
-            "error": "No data provided"
-        }), 400
+        return jsonify({"error": "No data provided"}), 400
 
     username = data.get("username")
     email = data.get("email")
 
     if not username or not email:
-        return jsonify({
-            "error": "Username and email are required"
-        }), 400
+        return jsonify({"error": "Username and email are required"}), 400
 
     users = load_users()
 
@@ -62,9 +53,9 @@ def signup():
     save_users(users)
 
     return jsonify({
-        "message": "User registered successfully ",
+        "message": "User registered successfully ✅",
         "user": user
-    }), 200
+    })
 
 
 if __name__ == "__main__":
