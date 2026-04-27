@@ -23,7 +23,7 @@ def signup():
     data = request.json
 
     user = {
-        "username": data.get("username"),
+        "email": data.get("email"),
         "password": data.get("password"),
         "ip": request.remote_addr,
         "time": str(datetime.now())
