@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import json
-from datetime import datetime
 
 app = Flask(__name__)
 CORS(app)
@@ -23,10 +22,9 @@ def signup():
     data = request.json
 
     user = {
+        "username": data.get("username"),
         "email": data.get("email"),
-        "password": data.get("password"),
         "ip": request.remote_addr,
-        "time": str(datetime.now())
     }
 
     save_user(user)
