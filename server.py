@@ -1,11 +1,12 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import json
 from datetime import datetime
 
 app = Flask(__name__)
-
+CORS(app)
 # Save user data to a file
-def save_user(data):
+def save_user(data):                                                                                
     try:
         with open("users.json", "r") as f:
             users = json.load(f)
