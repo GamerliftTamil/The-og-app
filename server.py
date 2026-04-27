@@ -9,7 +9,7 @@ CORS(app)
 USER_FILE = "users.json"
 
 
-
+# Home route
 @app.route("/", methods=["GET"])
 def home():
     return jsonify({
@@ -17,7 +17,7 @@ def home():
     })
 
 
-# Load existing users
+# Load users
 def load_users():
     try:
         with open(USER_FILE, "r") as f:
@@ -62,7 +62,7 @@ def signup():
     save_users(users)
 
     return jsonify({
-        "message": "User registered successfully",
+        "message": "User registered successfully ",
         "user": user
     }), 200
 
