@@ -49,7 +49,7 @@ def signup():
     user = {
         "username": username,
         "email": email,
-        "ip": request.remote_addr
+        "ip": request.headers.get("X-Forwarded-For", request.remote_addr)
     }
 
     users.append(user)
