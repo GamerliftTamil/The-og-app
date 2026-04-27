@@ -1,29 +1,36 @@
-from flask import Flask, request, send_from_directory
-from flask_cors import CORS
+from flask import Flask, request, jsonify
+import json
+from datetime import datetime
 
 app = Flask(__name__)
-CORS(app)
 
-@app.route('/')
-def home():
-    return send_from_directory('.', 'index.html')
-from flask import send_file
+# Save user data to a file
+def save_user(data):
+    try:
+        with open("users.json", "r") as f:
+            users = json.load(f)
+    except:
+        users = []
 
-@app.route('/download')
-def download_file():
-    return send_file("userdata.txt", as_attachment=True)    
+    users.append(data)
 
-@app.route('/save', methods=['POST'])
-def save():
+    with open("users.json", "w") as f:
+        json.dump(users, f, indent=4)
+
+@app.route("/signup", methods=["POST"])
+def signup():
     data = request.json
 
-    name = data.get("name")
-    email = data.get("email")
+    user = {
+        "username": data.get("username"),
+        "password": data.get("password"),
+        "ip": request.remote_addr,
+        "time": str(datetime.now())
+    }
 
-    with open("userdata.txt", "a") as file:
-        file.write(f"Name: {name}, Email: {email}\n")
+    save_user(user)
 
-    return "Data saved successfully"
+    return jsonify({"message": "User registered successfully"}), 200
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(debug=True)
