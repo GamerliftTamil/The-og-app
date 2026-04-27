@@ -9,12 +9,13 @@ CORS(app)
 USER_FILE = "users.json"
 
 
-# Serve frontend page
+# Home page
 @app.route("/")
 def home():
     return render_template("index.html")
 
 
+# Load users
 def load_users():
     try:
         with open(USER_FILE, "r") as f:
@@ -23,18 +24,17 @@ def load_users():
         return []
 
 
+# Save users
 def save_users(users):
     with open(USER_FILE, "w") as f:
         json.dump(users, f, indent=4)
 
 
+# Signup route
 @app.route("/signup", methods=["POST"])
 def signup():
     data = request.get_json()
-@app.route("/users", methods=["GET"])
-def get_users():
-    users = load_users()
-    return jsonify(users)
+
     if not data:
         return jsonify({"error": "No data provided"}), 400
 
@@ -56,9 +56,16 @@ def get_users():
     save_users(users)
 
     return jsonify({
-        "message": "User registered successfully ✅",
+        "message": "User registered successfully ",
         "user": user
     })
+
+
+# View saved users
+@app.route("/users", methods=["GET"])
+def get_users():
+    users = load_users()
+    return jsonify(users)
 
 
 if __name__ == "__main__":
