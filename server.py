@@ -31,7 +31,10 @@ def save_users(users):
 @app.route("/signup", methods=["POST"])
 def signup():
     data = request.get_json()
-
+@app.route("/users", methods=["GET"])
+def get_users():
+    users = load_users()
+    return jsonify(users)
     if not data:
         return jsonify({"error": "No data provided"}), 400
 
